@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/user.css" />
+    <title>User App</title>
+  </head>
+  <body>
+    <div style="position: relative">
+      <div>
+        <nav>
+          <ul>
+              <li><a href="#" class="active register" >Register</a></li>
+              <li><a href="#"  class="login">Login</a></li>
+              <li><a href="#" class="list">List</a></li>
+          </ul>
+        </nav>
+
+        <div id="register" class="formStyle" >
+          <form action="#" method="post" id="registerForm">
+            <div>
+              <label for="fname">First name:</label>
+              <input
+                type="text"
+                name="fname"
+                id="fname"
+                placeholder="First name"
+              />
+            </div>
+            <div>
+              <label for="lname">Last name:</label>
+              <input
+                type="text"
+                name="lname"
+                id="lname"
+                placeholder="Last name"
+              />
+            </div>
+            <div class="gender">
+              <label for="gender">Gender:</label>
+              <input type="radio" id="male" name="gender" value="Male" />
+              <label for="male">Male</label>
+              <input type="radio" id="female" name="gender" value="Female" />
+              <label for="female">Female</label>
+            </div>
+            <div>
+              <label for="username">Username:</label>
+              <input
+                type="text"
+                name="username"
+                id="username"
+                placeholder="Username"
+              />
+            </div>
+            <div>
+              <label for="email">Email:</label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="E-mail"
+              />
+            </div>
+            <div>
+              <label for="password">Password:</label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                placeholder="Password"
+              />
+            </div>
+            <div class="submitBtn">
+              <input
+                type="submit"
+                name="submit"
+                id="submit"
+                onsubmit="registerHandler(event)"
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="formStyle" id="login" style="display: none;">
+        <form action="#" method="post" id="loginForm">
+          <div>
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" placeholder="E-mail" />
+          </div>
+          <div>
+            <label for="password">Password:</label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Password"
+            />
+          </div>
+          <div class="submitBtn">
+            <input
+              type="submit"
+              name="submit"
+              id="submit"
+              onsubmit="loginHandler(event)"
+            />
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript" src="script/user.js"></script>
+</html>

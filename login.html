@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/user.css">
+    <title>Login App</title>
+</head>
+<body>
+    <div>
+        <div class="navBar">
+            <nav>
+                <ul>
+                  <li><a href="user.html" >Register</a></li>
+                  <li><a href="login.html" class="active">Login</a></li>
+                  <li><a href="list.html">List</a></li>
+                </ul>
+              </nav>
+        </div>
+        <div class="login">
+            <form action="list.html" method="post">
+                <div>
+                    <label for="email">Email:</label> 
+                    <input type="email" name="email" id="email" placeholder="E-mail">
+                </div>
+                <div>
+                    <label for="password">Password:</label> 
+                    <input type="password" name="password" id="password" placeholder="Password">
+                </div>
+                <div class="submitBtn">
+                    <input type="submit" name="submit" id="submit" onclick="submitHandler(event)">
+                </div>
+            </form>
+        </div>
+    </div>
+    
+</body>
+<script type="text/javascript" src="script/user.js"></script>
+</html>
