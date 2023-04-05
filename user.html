@@ -12,14 +12,14 @@
       <div>
         <nav>
           <ul>
-              <li><a href="#" class="active register" >Register</a></li>
-              <li><a href="#"  class="login">Login</a></li>
-              <li><a href="#" class="list">List</a></li>
+              <li><a href="#" class="active register" onclick="switchPages('register')" >Register</a></li>
+              <li><a href="#"  class="login" onclick="switchPages('login')">Login</a></li>
+              <li><a href="#" class="list" onclick="switchPages('list')">List</a></li>
           </ul>
         </nav>
 
         <div id="register" class="formStyle" >
-          <form action="#" method="post" id="registerForm">
+          <!-- <form action="#" method="post" id="registerForm"> -->
             <div>
               <label for="fname">First name:</label>
               <input
@@ -73,14 +73,9 @@
               />
             </div>
             <div class="submitBtn">
-              <input
-                type="submit"
-                name="submit"
-                id="submit"
-                onsubmit="registerHandler(event)"
-              />
+              <button id="registerBtn" name="regBtn" onclick="registerHandler()">Submit</button>
             </div>
-          </form>
+          <!-- </form> -->
         </div>
       </div>
       <div class="formStyle" id="login" style="display: none;">

@@ -31,11 +31,11 @@ div.formStyle{
 
 }
 
-form div{
+div.formStyle div{
     padding: 10px;
 }
 
-#submit{
+#registerBtn{
     background-color: rgb(31, 81, 190);
     color:white;
     width: 20%;
@@ -44,7 +44,7 @@ form div{
     cursor: pointer;
 }
 
-#submit:hover{
+#registerBtn:hover{
     background-color: black;
 }
 
