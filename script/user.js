@@ -92,6 +92,7 @@ function validation(fname, lname, gender, username, email, password, role) {
 
   const userArr = JSON.parse(storageObj);
 
+
     for (let index = 0; index < userArr.length; index++) {
       if (email.value === userArr[index].email) {
         email.classList.add("error");
