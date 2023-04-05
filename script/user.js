@@ -1,5 +1,3 @@
-const userObj = [];
-
 function registerHandler() {
   const fname = document.getElementById("fname");
   const lname = document.getElementById("lname");
@@ -28,21 +26,12 @@ function registerHandler() {
   localStorage.setItem("username", username.value);
   localStorage.setItem("email", email.value);
   localStorage.setItem("password", password.value);
-  const userReg = {};
-  userReg["fname"] = fname.value;
-  userReg["lname"] = lname.value;
-  userReg["gender"] = gender;
-  userReg["username"] = username.value;
-  userReg["email"] = email.value;
-  userReg["password"] = password.value;
-  userObj.push(userReg);
-
-  console.log(userObj);
 
   //switching pages to login after registering
   switchPages("login");
 }
 
+//VALIDATION FOR REGISTRATION
 function validation(fname, lname, gender, username, email, password) {
   if (
     fname.value == "" ||
@@ -63,7 +52,7 @@ function validation(fname, lname, gender, username, email, password) {
     alert("Cannot leave any empty field");
     return false;
   }
-
+  //email check
   if (!email.value.includes("@") || !email.value.includes(".")) {
     email.classList.add("error");
     alert("Please enter a valid email: missing @ or .");
@@ -80,7 +69,7 @@ function validation(fname, lname, gender, username, email, password) {
       return false;
     }
   }
-
+  //password check
   if (password.value.length > 3 || password.value.length < 10) {
     let flag = false;
     [...password.value].forEach((p) => {
@@ -89,23 +78,58 @@ function validation(fname, lname, gender, username, email, password) {
         return;
       }
     });
-    if(flag==false){
-      password.classList.add('error');
-      alert("Password is invalid: Should include atleast 1 uppercase character")
+    if (flag == false) {
+      password.classList.add("error");
+      alert(
+        "Password is invalid: Should include atleast 1 uppercase character"
+      );
       return false;
     }
-  }
-  else{
-    alert("Password is invalid: Between 3 to 10 characters ")
+  } else {
+    alert("Password is invalid: Between 3 to 10 characters ");
     return false;
   }
 
   return true;
 }
 
+//Login Handler
+function loginHandler() {
+  const email = localStorage.getItem("email");
+  const password = localStorage.getItem("password");
+  // console.log(email, password);
 
+  const inputEmail = document.getElementById("logEmail");
+  const inputPassword = document.getElementById("logPassword");
+  if (email === inputEmail.value && password === inputPassword.value) {
+    switchPages("list");
+    listUsers();
+  } else {
+    // console.log(inputEmail.value, inputPassword.value);
+    alert("email and password are invalid: they do not match");
+  }
+}
 
+//List Users
+function listUsers() {
+  var articles = document.getElementById("content");
+  // console.log(localStorage);
+  let i = 0;
+  var article = document.createElement("div");
+  for (const key in localStorage) {
+    if (i === localStorage.length) break;
+    // console.log(localStorage[key]);
+    i++;
+    var articleName = document.createElement("h3");
+    // articleName.setAttribute("class", "heading");
+    const element = localStorage[key];
+    articleName.innerText = key + " : " + element;
+    article.appendChild(articleName);
+    articles.appendChild(article);
+  }
+}
 
+//Switch pages
 function switchPages(id2) {
   const currentActive = document.querySelector("nav a.active");
   currentActive.classList.remove("active");

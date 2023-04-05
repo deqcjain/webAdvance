@@ -75,31 +75,33 @@
             <div class="submitBtn">
               <button id="registerBtn" name="regBtn" onclick="registerHandler()">Submit</button>
             </div>
-          <!-- </form> -->
         </div>
       </div>
       <div class="formStyle" id="login" style="display: none;">
           <div>
             <label for="email">Email:</label>
-            <input type="email" name="email" id="email" placeholder="E-mail" />
+            <input type="email" name="email" id="logEmail" placeholder="E-mail" />
           </div>
           <div>
             <label for="password">Password:</label>
             <input
               type="password"
               name="password"
-              id="password"
+              id="logPassword"
               placeholder="Password"
             />
           </div>
           <div class="submitBtn">
-            <input
-              type="submit"
-              name="submit"
-              id="submit"
+            <button
+            id="registerBtn" name="regBtn"
               onclick="loginHandler()"
-            />
+            >Submit</button>
           </div>
+      </div>
+      <div onload="listUsers()" class="formStyle" id="list" style="display: none;">
+        <div id="content">
+            
+        </div>
       </div>
     </div>
   </body>
