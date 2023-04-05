@@ -38,7 +38,7 @@
                 placeholder="Last name"
               />
             </div>
-            <div class="gender">
+            <div id="gender">
               <label for="gender">Gender:</label>
               <input type="radio" id="male" name="gender" value="Male" />
               <label for="male">Male</label>
@@ -79,7 +79,6 @@
         </div>
       </div>
       <div class="formStyle" id="login" style="display: none;">
-        <form action="#" method="post" id="loginForm">
           <div>
             <label for="email">Email:</label>
             <input type="email" name="email" id="email" placeholder="E-mail" />
@@ -98,10 +97,9 @@
               type="submit"
               name="submit"
               id="submit"
-              onsubmit="loginHandler(event)"
+              onclick="loginHandler()"
             />
           </div>
-        </form>
       </div>
     </div>
   </body>
