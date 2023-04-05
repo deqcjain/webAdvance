@@ -11,10 +11,10 @@
     <div style="position: relative">
       <div>
         <nav>
-          <ul>
-              <li><a href="#" class="active register" onclick="switchPages('register')" >Register</a></li>
-              <li><a href="#"  class="login" onclick="switchPages('login')">Login</a></li>
-              <li><a href="#" class="list" onclick="switchPages('list')">List</a></li>
+          <ul id="navList">
+              <li><a href="#" id="aregister" class="active register" onclick="switchPages('register')" >Register</a></li>
+              <li><a href="#" id="alogin" class="login" onclick="switchPages('login')">Login</a></li>
+              <li><a href="#" id="alist" class="list" onclick="switchPages('list')">List</a></li>
           </ul>
         </nav>
 
@@ -72,6 +72,15 @@
                 placeholder="Password"
               />
             </div>
+            <div id="roles">
+                <label for="roles">Role:</label>
+                <input type="radio" id="admin" name="roles" value="admin" />
+                <label for="admin">admin</label>
+                <input type="radio" id="operations" name="roles" value="operations" />
+                <label for="operations">operations</label>
+                <input type="radio" id="sales" name="roles" value="sales" />
+                <label for="sales">sales</label>
+              </div>
             <div class="submitBtn">
               <button id="registerBtn" name="regBtn" onclick="registerHandler()">Submit</button>
             </div>
