@@ -130,12 +130,20 @@ function validation(fname, lname, gender, username, email, password, role) {
 function loginHandler() {
   const inputEmail = document.getElementById("logEmail").value;
   const inputPassword = document.getElementById("logPassword").value;
+<<<<<<< HEAD
+=======
+  console.log(inputPassword);
+>>>>>>> 39f3f3097f9ceac3dff2916c3060a79acdc0256c
 
   const storageObj = localStorage.getItem("userObj");
   const userArr = JSON.parse(storageObj);
   let flag = false;
   if (userArr !== null) {
     for (let i = 0; i < userArr.length; i++) {
+<<<<<<< HEAD
+=======
+      console.log(inputEmail);
+>>>>>>> 39f3f3097f9ceac3dff2916c3060a79acdc0256c
       if (inputEmail == userArr[i].email) {
         flag = true;
         localStorage.setItem("role", userArr[i].role);
@@ -148,6 +156,10 @@ function loginHandler() {
       return;
     }
     for (let j = 0; j < userArr.length; j++) {
+<<<<<<< HEAD
+=======
+      console.log(userArr[j].password);
+>>>>>>> 39f3f3097f9ceac3dff2916c3060a79acdc0256c
       if (inputPassword == userArr[j].password) {
         flag = true;
         break;
