@@ -25,24 +25,20 @@ function registerHandler() {
     }
   });
   if (!validation(fname, lname, gender, username, email, password, role)) {
+    console.log("Validation failed");
     return;
   }
   const userReg = {};
   userReg["fname"] = fname.value;
   userReg["lname"] = lname.value;
-  userReg["gender"] = gender.value;
+  userReg["gender"] = gender;
   userReg["username"] = username.value;
   userReg["email"] = email.value;
-  userReg["password"] = password.value;
-  userReg["role"] = role.value;
+  userReg["role"] = role;
   userObj.push(userReg);
-  console.log(userObj);
-  localStorage.setItem("fname", fname.value);
-  localStorage.setItem("lname", lname.value);
-  localStorage.setItem("gender", gender);
-  localStorage.setItem("username", username.value);
-  localStorage.setItem("email", email.value);
   localStorage.setItem("password", password.value);
+  localStorage.setItem("email", email.value);
+
   localStorage.setItem("role", role);
   localStorage.setItem("userObj", JSON.stringify(userObj));
   //switching pages to login after registering
@@ -70,6 +66,7 @@ function validation(fname, lname, gender, username, email, password, role) {
     alert("Cannot leave any empty field");
     return false;
   }
+
   //email check
   if (!email.value.includes("@") || !email.value.includes(".")) {
     email.classList.add("error");
@@ -87,20 +84,18 @@ function validation(fname, lname, gender, username, email, password, role) {
       return false;
     }
   }
-
   const storageObj = localStorage.getItem("userObj");
-
   const userArr = JSON.parse(storageObj);
+  if(userArr!==null){
+  for (let index = 0; index < userArr.length; index++) {
+    if (email.value === userArr[index].email) {
+      email.classList.add("error");
+      alert("Email already exists");
+      return false;
+    }
+  }
+  }
 
-
-    for (let index = 0; index < userArr.length; index++) {
-      if (email.value === userArr[index].email) {
-        email.classList.add("error");
-        alert("Email already exists");
-        return false;
-      }
-    } 
-  
   //password check
   if (password.value.length > 3 || password.value.length < 10) {
     let flag = false;
@@ -129,11 +124,17 @@ function validation(fname, lname, gender, username, email, password, role) {
 function loginHandler() {
   const email = localStorage.getItem("email");
   const password = localStorage.getItem("password");
-
   const inputEmail = document.getElementById("logEmail");
   const inputPassword = document.getElementById("logPassword");
-  if (email === inputEmail.value && password === inputPassword.value) {
-    document.getElementById("aregister").style.display = "none";
+
+  if ((email === inputEmail.value && password === inputPassword.value)) {
+    const prevSession=localStorage.getItem('session');
+    if(prevSession!==null){
+      var decodeEmail=decodeSession(prevSession);
+    }
+    if(decodeEmail!==email){
+    const sessionId=createSession(email);
+    localStorage.setItem("session",sessionId)
     const listParent = document.getElementById("navList");
     const liLogout = document.createElement("li");
     const logout = document.createElement("a");
@@ -144,45 +145,85 @@ function loginHandler() {
     logout.innerHTML = "Logout";
     liLogout.appendChild(logout);
     listParent.appendChild(liLogout);
-    switchPages("list");
+    document.getElementById("alogout").style.display = "block";
     listUsers();
+    switchPages("list");
+    }
+    else{
+      alert("already logged in");
+    }
   } else {
-    alert("email and password are invalid: they do not match");
+    alert("email and password are invalid: they do not match from the localDB");
   }
+
 }
 
 //List Users
 function listUsers() {
-  document.getElementById("alist").style.display = "block";
-  var articles = document.getElementById("content");
-  let i = 0;
-  var article = document.createElement("div");
-  for (const key in localStorage) {
-    if (i === localStorage.length) break;
-    i++;
-    var articleName = document.createElement("h3");
-    const element = localStorage[key];
-    articleName.innerText = key + " : " + element;
-    article.appendChild(articleName);
-    articles.appendChild(article);
-  }
+  const sessionId = localStorage.getItem('session');
+    console.log(sessionId);
+    if (sessionId == null) {
+      switchPages('register');
+    } else {
+      const articles = document.getElementById("content");
+      const userArr = JSON.parse(localStorage.getItem("userObj"));
+
+      for (let i = 0; i < userArr.length; i++) {
+        const user = userArr[i];
+        const article = document.createElement("div");
+
+        for (const key in user) {
+          if (user.hasOwnProperty(key)) {
+            const value = user[key];
+            const articleName = document.createElement("h3");
+            articleName.innerText = key + " : " + value;
+            article.appendChild(articleName);
+          }
+        }
+
+        articles.appendChild(article);
+      }
+    }
 }
+
+window.addEventListener('load',listUsers());
+
 
 //Logout User
 function logoutHandler() {
+  localStorage.removeItem('session');
   document.getElementById("aregister").style.display = "block";
   document.getElementById("alogin").style.display = "block";
   document.getElementById("alogout").style.display = "none";
   switchPages("register");
 }
 
+//Create Session
+function createSession(email) {
+  const sessionId = email + "_" + Math.random().toString(36).substring(2, 9);
+  localStorage.setItem("session", sessionId);
+  return sessionId;
+}
+
+function decodeSession(sessionId) {
+  const parts = sessionId.split("_");
+  if (parts.length === 2) {
+    const email = parts[0];
+    return email;
+  } else {
+    return null;
+  }
+}
+
 //Switch pages
 function switchPages(id2) {
   const currentActive = document.querySelector("nav a.active");
+  const nextId='a'+id2;
+  if(currentActive.getAttribute('id')== nextId){return;}
   currentActive.classList.remove("active");
-  currentActive.style.display = "none";
   const className = currentActive.classList[0];
   document.getElementById(className).style.display = "none";
+
   const page2 = document.getElementById(id2);
   document.getElementsByClassName(id2)[0].classList.add("active");
   page2.style.display = "block";
