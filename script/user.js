@@ -130,20 +130,13 @@ function validation(fname, lname, gender, username, email, password, role) {
 function loginHandler() {
   const inputEmail = document.getElementById("logEmail").value;
   const inputPassword = document.getElementById("logPassword").value;
-<<<<<<< HEAD
-=======
-  console.log(inputPassword);
->>>>>>> 39f3f3097f9ceac3dff2916c3060a79acdc0256c
 
   const storageObj = localStorage.getItem("userObj");
   const userArr = JSON.parse(storageObj);
   let flag = false;
   if (userArr !== null) {
     for (let i = 0; i < userArr.length; i++) {
-<<<<<<< HEAD
-=======
-      console.log(inputEmail);
->>>>>>> 39f3f3097f9ceac3dff2916c3060a79acdc0256c
+
       if (inputEmail == userArr[i].email) {
         flag = true;
         localStorage.setItem("role", userArr[i].role);
@@ -156,10 +149,6 @@ function loginHandler() {
       return;
     }
     for (let j = 0; j < userArr.length; j++) {
-<<<<<<< HEAD
-=======
-      console.log(userArr[j].password);
->>>>>>> 39f3f3097f9ceac3dff2916c3060a79acdc0256c
       if (inputPassword == userArr[j].password) {
         flag = true;
         break;
@@ -203,7 +192,7 @@ function listUsers() {
   } else {
     const userRole = localStorage.getItem("role");
     if (userRole === "admin") adminBased();
-    else if (userRole === "operation") operationBased();
+    else if (userRole === "operations") operationBased();
     else salesBased();
   }
 }
@@ -277,7 +266,7 @@ function adminBased() {
     const article = document.createElement("div");
 
     for (const key in user) {
-      if (user.hasOwnProperty(key)) {
+      if (user.hasOwnProperty(key)&& key!='password') {
         const value = user[key];
         const articleName = document.createElement("h3");
         articleName.innerText = key + " : " + value;
@@ -294,32 +283,33 @@ function operationBased() {
 
   for (let i = 0; i < userArr.length; i++) {
     const user = userArr[i];
+    if (user["role"] == "sales") {
     const article = document.createElement("div");
 
-    if (user["role"] === "sales") {
       for (const key in user) {
-        if (user.hasOwnProperty(key)) {
+        if (user.hasOwnProperty(key) && key!='password') {
           const value = user[key];
+          console.log(value);
           const articleName = document.createElement("h3");
           articleName.innerText = key + " : " + value;
           article.appendChild(articleName);
         }
       }
+      articles.appendChild(article);
     }
-    articles.appendChild(article);
   }
 }
 
 function salesBased() {
   const articles = document.getElementById("content");
   const userArr = JSON.parse(localStorage.getItem("userObj"));
-
-  const user = userArr[userArr.length - 1];
+  const roleName=localStorage.getItem('role')
+  const user = userArr[userArr.findIndex((v=> v["role"]==roleName))];
   const article = document.createElement("div");
 
   if (user["role"] === "sales") {
     for (const key in user) {
-      if (user.hasOwnProperty(key)) {
+      if (user.hasOwnProperty(key)&& key!='password') {
         const value = user[key];
         const articleName = document.createElement("h3");
         articleName.innerText = key + " : " + value;

@@ -52,6 +52,17 @@ div.formStyle div{
     border: 1px solid red;
 }
 
+div#content{
+   display: flex;
+   justify-content: space-around;
+}
+
+div#content div{
+   width: fit-content;
+   border: 1px solid rosybrown;
+   border-radius: 10px;
+}
+
 /* form div.gender{
     padding-top:20px;
 } */
