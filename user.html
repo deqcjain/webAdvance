@@ -12,81 +12,14 @@
       <div>
         <nav>
           <ul id="navList">
-              <li><a href="#" id="aregister" class="active register" onclick="switchPages('register')" >Register</a></li>
-              <li><a href="#" id="alogin" class="login" onclick="switchPages('login')">Login</a></li>
-              <li><a href="#" id="alist"  class="list" onclick="switchPages('list')">List</a></li>
+              <li><a href="#" id="aregister" class="register" onclick="switchPages('register')" >Register</a></li>
+              <li><a href="#" id="alogin" class="active login" onclick="switchPages('login')">Login</a></li>
+              <li><a href="#" id="alist"  class="list" style="display: none;" onclick="switchPages('list')">List</a></li>
           </ul>
         </nav>
 
-        <div id="register" class="formStyle" >
-          <!-- <form action="#" method="post" id="registerForm"> -->
-            <div>
-              <label for="fname">First name:</label>
-              <input
-                type="text"
-                name="fname"
-                id="fname"
-                placeholder="First name"
-              />
-            </div>
-            <div>
-              <label for="lname">Last name:</label>
-              <input
-                type="text"
-                name="lname"
-                id="lname"
-                placeholder="Last name"
-              />
-            </div>
-            <div id="gender">
-              <label for="gender">Gender:</label>
-              <input type="radio" id="male" name="gender" value="Male" />
-              <label for="male">Male</label>
-              <input type="radio" id="female" name="gender" value="Female" />
-              <label for="female">Female</label>
-            </div>
-            <div>
-              <label for="username">Username:</label>
-              <input
-                type="text"
-                name="username"
-                id="username"
-                placeholder="Username"
-              />
-            </div>
-            <div>
-              <label for="email">Email:</label>
-              <input
-                type="email"
-                name="email"
-                id="email"
-                placeholder="E-mail"
-              />
-            </div>
-            <div>
-              <label for="password">Password:</label>
-              <input
-                type="password"
-                name="password"
-                id="password"
-                placeholder="Password"
-              />
-            </div>
-            <div id="roles">
-                <label for="roles">Role:</label>
-                <input type="radio" id="admin" name="roles" value="admin" />
-                <label for="admin">admin</label>
-                <input type="radio" id="operations" name="roles" value="operations" />
-                <label for="operations">operations</label>
-                <input type="radio" id="sales" name="roles" value="sales" />
-                <label for="sales">sales</label>
-              </div>
-            <div class="submitBtn">
-              <button id="registerBtn" name="regBtn" onclick="registerHandler()">Submit</button>
-            </div>
-        </div>
-      </div>
-      <div class="formStyle" id="login" style="display: none;">
+       
+      <div class="formStyle" id="login" >
           <div>
             <label for="email">Email:</label>
             <input type="email" name="email" id="logEmail" placeholder="E-mail" />
@@ -107,6 +40,74 @@
             >Submit</button>
           </div>
       </div>
+      <div id="register" class="formStyle" style="display: none;">
+        <!-- <form action="#" method="post" id="registerForm"> -->
+          <div>
+            <label for="fname">First name:</label>
+            <input
+              type="text"
+              name="fname"
+              id="fname"
+              placeholder="First name"
+            />
+          </div>
+          <div>
+            <label for="lname">Last name:</label>
+            <input
+              type="text"
+              name="lname"
+              id="lname"
+              placeholder="Last name"
+            />
+          </div>
+          <div id="gender">
+            <label for="gender">Gender:</label>
+            <input type="radio" id="male" name="gender" value="Male" />
+            <label for="male">Male</label>
+            <input type="radio" id="female" name="gender" value="Female" />
+            <label for="female">Female</label>
+          </div>
+          <div>
+            <label for="username">Username:</label>
+            <input
+              type="text"
+              name="username"
+              id="username"
+              placeholder="Username"
+            />
+          </div>
+          <div>
+            <label for="email">Email:</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              placeholder="E-mail"
+            />
+          </div>
+          <div>
+            <label for="password">Password:</label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Password"
+            />
+          </div>
+          <div id="roles">
+              <label for="roles">Role:</label>
+              <input type="radio" id="admin" name="roles" value="admin" />
+              <label for="admin">admin</label>
+              <input type="radio" id="operations" name="roles" value="operations" />
+              <label for="operations">operations</label>
+              <input type="radio" id="sales" name="roles" value="sales" />
+              <label for="sales">sales</label>
+            </div>
+          <div class="submitBtn">
+            <button id="registerBtn" name="regBtn" onclick="registerHandler()">Submit</button>
+          </div>
+      </div>
+    </div>
       <div onload="listUsers()" class="formStyle" id="list" style="display: none;">
         <div id="content">
             

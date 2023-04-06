@@ -36,12 +36,20 @@ function registerHandler() {
   userReg["email"] = email.value;
   userReg["role"] = role;
   userObj.push(userReg);
+  const storageObj = localStorage.getItem("userObj");
+  console.log(storageObj);
+  var userArr;
+  if (!storageObj) {
+    userArr = JSON.parse(storageObj);
+  }
+
+  console.log(userArr);
   localStorage.setItem("password", password.value);
   localStorage.setItem("email", email.value);
-
   localStorage.setItem("role", role);
-  localStorage.setItem("userObj", JSON.stringify(userObj));
-  //switching pages to login after registering
+  if (!userArr) localStorage.setItem("userObj", JSON.stringify(userObj));
+  else localStorage.setItem("userObj", JSON.stringify(...userArr, userObj));
+
   switchPages("login");
 }
 
@@ -86,14 +94,14 @@ function validation(fname, lname, gender, username, email, password, role) {
   }
   const storageObj = localStorage.getItem("userObj");
   const userArr = JSON.parse(storageObj);
-  if(userArr!==null){
-  for (let index = 0; index < userArr.length; index++) {
-    if (email.value === userArr[index].email) {
-      email.classList.add("error");
-      alert("Email already exists");
-      return false;
+  if (userArr !== null) {
+    for (let index = 0; index < userArr.length; index++) {
+      if (email.value === userArr[index].email) {
+        email.classList.add("error");
+        alert("Email already exists");
+        return false;
+      }
     }
-  }
   }
 
   //password check
@@ -127,71 +135,90 @@ function loginHandler() {
   const inputEmail = document.getElementById("logEmail");
   const inputPassword = document.getElementById("logPassword");
 
-  if ((email === inputEmail.value && password === inputPassword.value)) {
-    const prevSession=localStorage.getItem('session');
-    if(prevSession!==null){
-      var decodeEmail=decodeSession(prevSession);
+  if (email === inputEmail.value && password === inputPassword.value) {
+    const prevSession = localStorage.getItem("session");
+    if (prevSession !== null) {
+      var decodeEmail = decodeSession(prevSession);
     }
-    if(decodeEmail!==email){
-    const sessionId=createSession(email);
-    localStorage.setItem("session",sessionId)
-    const listParent = document.getElementById("navList");
-    const liLogout = document.createElement("li");
-    const logout = document.createElement("a");
-    logout.setAttribute("class", "logout");
-    logout.setAttribute("href", "#");
-    logout.setAttribute("onclick", "logoutHandler()");
-    logout.setAttribute("id", "alogout");
-    logout.innerHTML = "Logout";
-    liLogout.appendChild(logout);
-    listParent.appendChild(liLogout);
-    document.getElementById("alogout").style.display = "block";
-    listUsers();
-    switchPages("list");
-    }
-    else{
+    if (decodeEmail !== email) {
+      const sessionId = createSession(email);
+      localStorage.setItem("session", sessionId);
+      // logoutBtn();
+      conditionalRendering();
+      document.getElementById("alist").style.display = "block";
+      switchPages("list");
+    } else {
       alert("already logged in");
     }
   } else {
     alert("email and password are invalid: they do not match from the localDB");
   }
-
 }
 
 //List Users
 function listUsers() {
-  const sessionId = localStorage.getItem('session');
-    console.log(sessionId);
-    if (sessionId == null) {
-      switchPages('register');
-    } else {
-      const articles = document.getElementById("content");
-      const userArr = JSON.parse(localStorage.getItem("userObj"));
+  const sessionId = localStorage.getItem("session");
+  console.log(sessionId);
+  if (sessionId == null) {
+    switchPages("register");
+  } else {
+    const articles = document.getElementById("content");
+    const userArr = JSON.parse(localStorage.getItem("userObj"));
 
-      for (let i = 0; i < userArr.length; i++) {
-        const user = userArr[i];
-        const article = document.createElement("div");
+    for (let i = 0; i < userArr.length; i++) {
+      const user = userArr[i];
+      const article = document.createElement("div");
 
-        for (const key in user) {
-          if (user.hasOwnProperty(key)) {
-            const value = user[key];
-            const articleName = document.createElement("h3");
-            articleName.innerText = key + " : " + value;
-            article.appendChild(articleName);
-          }
+      for (const key in user) {
+        if (user.hasOwnProperty(key)) {
+          const value = user[key];
+          const articleName = document.createElement("h3");
+          articleName.innerText = key + " : " + value;
+          article.appendChild(articleName);
         }
-
-        articles.appendChild(article);
       }
+
+      articles.appendChild(article);
     }
+  }
 }
 
-window.addEventListener('load',listUsers());
+function logoutBtn() {
+  const listParent = document.getElementById("navList");
+  const liLogout = document.createElement("li");
+  const logout = document.createElement("a");
+  logout.setAttribute("class", "logout");
+  logout.setAttribute("href", "#");
+  logout.setAttribute("onclick", "logoutHandler()");
+  logout.setAttribute("id", "alogout");
+  logout.innerHTML = "Logout";
+  liLogout.appendChild(logout);
+  listParent.appendChild(liLogout);
+  document.getElementById("alogout").style.display = "block";
+}
 
+function conditionalRendering() {
+  document.getElementById("alist").style.display = "block";
+  document.getElementById("alist").classList.add("active");
+  document.getElementById("list").style.display = "block";
+  document.getElementById("login").style.display = "none";
+  document.getElementById("register").style.display = "none";
+  document.getElementById("alogin").style.display = "none";
+  document.getElementById("aregister").style.display = "none";
+  logoutBtn();
+  listUsers();
+}
+
+window.addEventListener("load", () => {
+  if (localStorage.getItem("session") !== null) {
+    conditionalRendering();
+  }
+});
 
 //Logout User
 function logoutHandler() {
-  localStorage.removeItem('session');
+  localStorage.removeItem("session");
+  location.reload();
   document.getElementById("aregister").style.display = "block";
   document.getElementById("alogin").style.display = "block";
   document.getElementById("alogout").style.display = "none";
@@ -215,11 +242,16 @@ function decodeSession(sessionId) {
   }
 }
 
+//Role Based Authorization
+function roleBased() {}
+
 //Switch pages
 function switchPages(id2) {
   const currentActive = document.querySelector("nav a.active");
-  const nextId='a'+id2;
-  if(currentActive.getAttribute('id')== nextId){return;}
+  const nextId = "a" + id2;
+  if (currentActive.getAttribute("id") == nextId) {
+    return;
+  }
   currentActive.classList.remove("active");
   const className = currentActive.classList[0];
   document.getElementById(className).style.display = "none";
