@@ -34,6 +34,7 @@ function registerHandler() {
   userReg["gender"] = gender;
   userReg["username"] = username.value;
   userReg["email"] = email.value;
+  userReg["password"] = password.value;
   userReg["role"] = role;
   userObj.push(userReg);
   const storageObj = localStorage.getItem("userObj");
@@ -130,12 +131,45 @@ function validation(fname, lname, gender, username, email, password, role) {
 
 //Login Handler
 function loginHandler() {
-  const email = localStorage.getItem("email");
-  const password = localStorage.getItem("password");
-  const inputEmail = document.getElementById("logEmail");
-  const inputPassword = document.getElementById("logPassword");
+  const inputEmail = document.getElementById("logEmail").value;
+  const inputPassword = document.getElementById("logPassword").value;
+  console.log(inputPassword);
 
-  if (email === inputEmail.value && password === inputPassword.value) {
+  const storageObj = localStorage.getItem("userObj");
+  const userArr = JSON.parse(storageObj);
+  let flag = false;
+  if (userArr !== null) {
+    for (let i = 0; i < userArr.length; i++) {
+      console.log(inputEmail);
+      if (inputEmail == userArr[i].email) {
+        flag = true;
+        localStorage.setItem("role", userArr[i].role);
+        break;
+      }
+    }
+    if (!flag) {
+      alert("Invalid email");
+      document.getElementById("logEmail").classList.add("error");
+      return;
+    }
+    for (let j = 0; j < userArr.length; j++) {
+      console.log(userArr[j].password);
+      if (inputPassword == userArr[j].password) {
+        flag = true;
+        break;
+      }
+    }
+    if (!flag) {
+      alert("Invalid password");
+      document.getElementById("logPassword").classList.add("error");
+      return;
+    }
+  }
+
+  if (flag) {
+    localStorage.setItem("email", inputEmail);
+    localStorage.setItem("password", inputPassword);
+
     const prevSession = localStorage.getItem("session");
     if (prevSession !== null) {
       var decodeEmail = decodeSession(prevSession);
@@ -158,28 +192,13 @@ function loginHandler() {
 //List Users
 function listUsers() {
   const sessionId = localStorage.getItem("session");
-  console.log(sessionId);
   if (sessionId == null) {
     switchPages("register");
   } else {
-    const articles = document.getElementById("content");
-    const userArr = JSON.parse(localStorage.getItem("userObj"));
-
-    for (let i = 0; i < userArr.length; i++) {
-      const user = userArr[i];
-      const article = document.createElement("div");
-
-      for (const key in user) {
-        if (user.hasOwnProperty(key)) {
-          const value = user[key];
-          const articleName = document.createElement("h3");
-          articleName.innerText = key + " : " + value;
-          article.appendChild(articleName);
-        }
-      }
-
-      articles.appendChild(article);
-    }
+    const userRole = localStorage.getItem("role");
+    if (userRole === "admin") adminBased();
+    else if (userRole === "operation") operationBased();
+    else salesBased();
   }
 }
 
@@ -243,7 +262,67 @@ function decodeSession(sessionId) {
 }
 
 //Role Based Authorization
-function roleBased() {}
+function adminBased() {
+  const articles = document.getElementById("content");
+  const userArr = JSON.parse(localStorage.getItem("userObj"));
+
+  for (let i = 0; i < userArr.length; i++) {
+    const user = userArr[i];
+    const article = document.createElement("div");
+
+    for (const key in user) {
+      if (user.hasOwnProperty(key)) {
+        const value = user[key];
+        const articleName = document.createElement("h3");
+        articleName.innerText = key + " : " + value;
+        article.appendChild(articleName);
+      }
+    }
+    articles.appendChild(article);
+  }
+}
+
+function operationBased() {
+  const articles = document.getElementById("content");
+  const userArr = JSON.parse(localStorage.getItem("userObj"));
+
+  for (let i = 0; i < userArr.length; i++) {
+    const user = userArr[i];
+    const article = document.createElement("div");
+
+    if (user["role"] === "sales") {
+      for (const key in user) {
+        if (user.hasOwnProperty(key)) {
+          const value = user[key];
+          const articleName = document.createElement("h3");
+          articleName.innerText = key + " : " + value;
+          article.appendChild(articleName);
+        }
+      }
+    }
+    articles.appendChild(article);
+  }
+}
+
+function salesBased() {
+  const articles = document.getElementById("content");
+  const userArr = JSON.parse(localStorage.getItem("userObj"));
+
+  const user = userArr[userArr.length - 1];
+  const article = document.createElement("div");
+
+  if (user["role"] === "sales") {
+    for (const key in user) {
+      if (user.hasOwnProperty(key)) {
+        const value = user[key];
+        const articleName = document.createElement("h3");
+        articleName.innerText = key + " : " + value;
+        article.appendChild(articleName);
+      }
+    }
+  }
+  articles.appendChild(article);
+}
 
 //Switch pages
 function switchPages(id2) {
