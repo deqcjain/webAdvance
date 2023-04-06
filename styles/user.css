@@ -1,0 +1,68 @@
+nav{
+    background-color: aliceblue;
+    height: 35px;
+}
+nav ul{
+    display: flex;
+    justify-content: flex-end;
+    list-style: none;
+    padding-top: 5px;
+}
+
+nav ul li{
+    padding-right: 28px;
+    font-size: larger;
+}
+
+nav a{
+    color: grey;
+    text-decoration: none;
+}
+nav a:hover{
+    color: salmon;
+}
+nav a.active{
+    color: salmon;
+}
+
+div.formStyle{
+    margin-top: 20px;
+    text-align: center;
+
+}
+
+div.formStyle div{
+    padding: 10px;
+}
+
+#registerBtn{
+    background-color: rgb(31, 81, 190);
+    color:white;
+    width: 20%;
+    height: 40px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#registerBtn:hover{
+    background-color: black;
+}
+
+.error{
+    border: 1px solid red;
+}
+
+div#content{
+   display: flex;
+   justify-content: space-around;
+}
+
+div#content div{
+   width: fit-content;
+   border: 1px solid rosybrown;
+   border-radius: 10px;
+}
+
+/* form div.gender{
+    padding-top:20px;
+} */
