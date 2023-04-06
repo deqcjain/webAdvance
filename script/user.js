@@ -4,7 +4,6 @@ const userObj = [];
 function registerHandler() {
   const fname = document.getElementById("fname");
   const lname = document.getElementById("lname");
-  //gender evaluation
   const genderByName = document.getElementsByName("gender");
   let gender = null;
   genderByName.forEach((sex) => {
@@ -136,7 +135,6 @@ function loginHandler() {
   let flag = false;
   if (userArr !== null) {
     for (let i = 0; i < userArr.length; i++) {
-
       if (inputEmail == userArr[i].email) {
         flag = true;
         localStorage.setItem("role", userArr[i].role);
@@ -148,6 +146,7 @@ function loginHandler() {
       document.getElementById("logEmail").classList.add("error");
       return;
     }
+    flag = false;
     for (let j = 0; j < userArr.length; j++) {
       if (inputPassword == userArr[j].password) {
         flag = true;
@@ -172,7 +171,6 @@ function loginHandler() {
     if (decodeEmail !== email) {
       const sessionId = createSession(email);
       localStorage.setItem("session", sessionId);
-      // logoutBtn();
       conditionalRendering();
       document.getElementById("alist").style.display = "block";
       switchPages("list");
@@ -266,7 +264,7 @@ function adminBased() {
     const article = document.createElement("div");
 
     for (const key in user) {
-      if (user.hasOwnProperty(key)&& key!='password') {
+      if (user.hasOwnProperty(key) && key != "password") {
         const value = user[key];
         const articleName = document.createElement("h3");
         articleName.innerText = key + " : " + value;
@@ -284,12 +282,11 @@ function operationBased() {
   for (let i = 0; i < userArr.length; i++) {
     const user = userArr[i];
     if (user["role"] == "sales") {
-    const article = document.createElement("div");
+      const article = document.createElement("div");
 
       for (const key in user) {
-        if (user.hasOwnProperty(key) && key!='password') {
+        if (user.hasOwnProperty(key) && key != "password") {
           const value = user[key];
-          console.log(value);
           const articleName = document.createElement("h3");
           articleName.innerText = key + " : " + value;
           article.appendChild(articleName);
@@ -303,13 +300,13 @@ function operationBased() {
 function salesBased() {
   const articles = document.getElementById("content");
   const userArr = JSON.parse(localStorage.getItem("userObj"));
-  const roleName=localStorage.getItem('role')
-  const user = userArr[userArr.findIndex((v=> v["role"]==roleName))];
+  const roleName = localStorage.getItem("role");
+  const user = userArr[userArr.findIndex((v) => v["role"] == roleName)];
   const article = document.createElement("div");
 
   if (user["role"] === "sales") {
     for (const key in user) {
-      if (user.hasOwnProperty(key)&& key!='password') {
+      if (user.hasOwnProperty(key) && key != "password") {
         const value = user[key];
         const articleName = document.createElement("h3");
         articleName.innerText = key + " : " + value;
